@@ -40,7 +40,7 @@ replace the default version shipped by the distribution. To install all required
 packages, do:
 
 ```
-$ sudo zypper install --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64
+$ sudo zypper install --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 qemu-img
 ```
 
 This command will install a TDX capable kernel and QEMU together with the
