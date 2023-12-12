@@ -1,4 +1,4 @@
-# Installation of TDX Components on SUSE Distributions
+# Installation of TDX Demo Components on SUSE Distributions
 
 This repository contains documentation for how to set up an run a TDX host
 environment on SUSE distributions. To date it covers SUSE Linux Enterprise

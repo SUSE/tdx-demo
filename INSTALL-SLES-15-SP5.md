@@ -1,9 +1,16 @@
-# Setting up a TDX Host Hypervisor on SLES 15-SP5 and openSUSE Leap 15.5
+# Setting up a Demo TDX Host Hypervisor on SLES 15-SP5 and openSUSE Leap 15.5
 
 This document describes how to set up a host hypervisor to run confidential
 virtual machines protected by the Intel Trusted Domain Extensions (TDX). The
 steps can be followed on openSUSE Leap 15.5 or SUSE Linux Enterprise Server
 15-SP5.
+
+Note that the TDX support packages going to be installed by following the
+instructions below are provided for **DEMO** purposes only. There is no support
+provided by SUSE for these packages or any setups derived from following this
+document.
+
+If you run into issues, please report them [here](https://github.com/SUSE/tdx-support/issues).
 
 ## Preparing the Host Environment
 
@@ -25,7 +32,7 @@ install these packages, an additional repository needs to be added via zypper.
 On openSUSE Leap 15.5 or SUSE Linux Enterprise Server this can be done via
 
 ```
-$ sudo zypper ar -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ tdx-packages
+$ sudo zypper ar -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ tdx-demo-packages
 $ sudo zypper refresh
 ```
 
@@ -60,16 +67,16 @@ run TDX enabled virtual machines.
 
 To prepare a guest image you just need to install a Linux distribution
 into a disk image file and make sure that EFI and secure boot is enabled.
-Currently we recomment to use openSUSE Tumbleweed as the guest operating system,
+Currently we recommend to use openSUSE 15.6 as the guest operating system,
 because it includes all the latest updates for optimal TDX guest support.
 
 The easiest way to do that is to create an image file and launch QEMU without
-enabling TDX. Make sure you have an installation ISO image available:
-
+enabling TDX. Make sure you have an installation ISO image available. The
+ISO file can be downloaded from [this server](http://download.opensuse.org/distribution/leap/15.6/iso/).
 
 ```
 images $ ls -l
--rw-r--r-- 1 joro joro   4665114624 Dec 11 08:59 openSUSE-Tumbleweed-DVD-x86_64-Current.iso
+-rw-r--r-- 1 joro joro   4335861760 Dec 12 08:59 openSUSE-Leap-15.6-DVD-x86_64-Current.iso
 images $ qemu-img create -f qcow2 tdx-guest.qcow2 64G
 ```
 
