@@ -1,9 +1,8 @@
-# Setting up a Demo TDX Host Hypervisor on SLES 15-SP5 and openSUSE Leap 15.5
+# Setting up a DEMO TDX Host Hypervisor on SLES 15-SP5 and openSUSE Leap 15.5
 
-This document describes how to set up a host hypervisor to run confidential
+This document describes how to set up a DEMO host hypervisor to run confidential
 virtual machines protected by the Intel Trusted Domain Extensions (TDX). The
-steps can be followed on openSUSE Leap 15.5 or SUSE Linux Enterprise Server
-15-SP5.
+steps can be followed on openSUSE Leap 15.5 or SUSE Linux Enterprise Server 15-SP5.
 
 Note that the TDX support packages going to be installed by following the
 instructions below are provided for **DEMO** purposes only. There is no support
@@ -25,7 +24,7 @@ the QEMU virtual machine monitor and the guest virtual firmware. These changes
 are not yet completely merged into their upstream code-streams, so the SUSE
 default packages can not yet support Intel TDX.
 
-But SUSE packaged the non-upstream code that is available and provides updated
+SUSE packaged the non-upstream code that is available and provides updated
 packages for users and customers to experiment with this new technology. To
 install these packages, an additional repository needs to be added via zypper.
 
