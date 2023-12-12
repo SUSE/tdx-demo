@@ -107,5 +107,17 @@ else
     exit 7
 fi
 
-# install the DEMO guest
+# install the DEMO guest: this requires some user interaction
 
+/usr/bin/qemu-system-x86_64 \
+    -accel kvm \
+    -machine q35 \
+    -cpu host,pmu=off,-kvm-steal-time \
+    -smp 4 \
+    -m 4G \
+    -drive file=${HOME}/tdx-guest.qcow2,if=virtio \
+    -netdev user,id=net0 \
+    -device virtio-net,netdev=net0 \
+    -serial stdio \
+    -bios /usr/share/qemu/tdvf-x86_64.bin \
+    -cdrom ${HOME}/tdx-guest.iso
