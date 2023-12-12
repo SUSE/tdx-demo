@@ -1,19 +1,21 @@
 #! /bin/bash
 # author: Claudio Fontana <cfontana@suse.de>
 
-# check if tdx-packages repo already exists, if not add it.
+REPO=tdx-demo-packages
 
-if zypper lr 2>/dev/null | grep -q tdx-packages ; then
-    echo "$0: ********************************************"
-    echo "$0: SUCCESS: DEMO tdx-packages repository exists"
+# check if $REPO repo already exists, if not add it.
+
+if zypper lr 2>/dev/null | grep -q $REPO ; then
+    echo "$0: *************************************************"
+    echo "$0: SUCCESS: DEMO $REPO repository exists"
 else
-    if zypper ar -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ tdx-packages ; then
-	echo "$0: **********************************************"
-	echo "$0: SUCCESS: DEMO tdx-packages repository is added"
+    if zypper ar -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ $REPO ; then
+	echo "$0: ***************************************************"
+	echo "$0: SUCCESS: DEMO $REPO repository is added"
     else
 	ZC=$?
-	echo "$0: *************************************************************************"
-	echo "$0: FAILURE: DEMO tdx-packages repository could not be added, zypper code $ZC"
+	echo "$0: ******************************************************************************"
+	echo "$0: FAILURE: DEMO $REPO repository could not be added, zypper code $ZC"
 	exit 1
     fi
 fi
@@ -33,10 +35,10 @@ fi
 
 if zypper -q install -y --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 ; then
     echo "$0: ****************************************"
-    echo "$0: SUCCESS: all DEMO tdx-packages installed"
+    echo "$0: SUCCESS: all DEMO $REPO installed"
 else
     echo "$0: ***************************************"
-    echo "$0: FAILURE: could not install tdx-packages"
+    echo "$0: FAILURE: could not install $REPO"
     exit 3
 fi
 
