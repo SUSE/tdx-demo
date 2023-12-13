@@ -3,10 +3,15 @@
 # assumes coreutils are installed
 
 PROGRAM_NAME=$0
-REPO=tdx-demo-packages
-#REPO_LEN=${#REPO}
-GUEST_DOWNLOAD=http://download.opensuse.org/distribution/leap/15.6/iso/
-GUEST_ISO=openSUSE-Leap-15.6-DVD-x86_64-Current.iso
+
+# the repo with the experimental TDX demo packages, for 15.5 ONLY
+
+REPO_URL=https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/
+REPO_NAME=tdx-demo-packages
+
+GUEST_URL=https://download.opensuse.org/repositories/Virtualization:/Appliances:/Images:/openSUSE-Leap-15.6/images/
+GUEST_QCOW2=openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2
+
 NEED_DOWNLOAD=y
 
 # print separator line with asterisks
@@ -17,15 +22,15 @@ function print_sep () {
 }
 
 function verify_sha () {
-    if wget -O ${HOME}/tdx-guest.iso.sha256 ${GUEST_DOWNLOAD}/${GUEST_ISO}.sha256 ; then
+    if wget -O ${HOME}/tdx-guest.qcow2.sha256 ${GUEST_URL}/${GUEST_QCOW2}.sha256 ; then
 	print_sep "SUCCESS: DEMO guest SHA downloaded to $HOME"
     else
 	print_sep "FAILURE: could not download guest SHA to $HOME"
 	exit 5
     fi
-    print_sep "VERIFYING ISO SHA256..."
-    SHA1=`cat ${HOME}/tdx-guest.iso.sha256`
-    SHA2=`sha256sum ${HOME}/tdx-guest.iso`
+    print_sep "VERIFYING QCOW2 SHA256..."
+    SHA1=`cat ${HOME}/tdx-guest.qcow2.sha256`
+    SHA2=`sha256sum ${HOME}/tdx-guest.qcow2`
     SHA1="${SHA1% *}"
     SHA2="${SHA2% *}"
     if test $SHA1 = $SHA2 ; then
@@ -45,16 +50,16 @@ else
     exit 1
 fi
 
-# check if $REPO repo already exists, if not add it.
+# check if $REPO_NAME repo already exists, if not add it.
 
-if zypper lr 2>/dev/null | grep -q $REPO ; then
+if zypper lr 2>/dev/null | grep -q $REPO_NAME ; then
     print_sep "SUCCESS: DEMO $REPO repository exists"
 else
-    if zypper ar -p 1 -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ $REPO ; then
-	print_sep "SUCCESS: DEMO $REPO repository is added"
+    if zypper ar -p 1 -e -f ${REPO_URL} ${REPO_NAME} ; then
+	print_sep "SUCCESS: DEMO $REPO_NAME repository is added"
     else
 	ZC=$?
-	print_sep "FAILURE: DEMO $REPO repository could not be added, zypper code $ZC"
+	print_sep "FAILURE: DEMO $REPO_NAME repository could not be added, zypper code $ZC"
 	exit 2
     fi
 fi
@@ -71,53 +76,31 @@ fi
 # install packages
 
 if zypper -q install -y --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 qemu-tools ; then
-    print_sep "SUCCESS: all DEMO packages in $REPO installed"
+    print_sep "SUCCESS: all DEMO packages in $REPO_NAME installed"
 else
-    print_sep "FAILURE: could not install $REPO"
+    print_sep "FAILURE: could not install $REPO_NAME"
     exit 4
 fi
 
-# if the tdx guest ISO exists, verify SHA
-if test -f ${HOME}/tdx-guest.iso ; then
+# if the tdx guest QCOW2 exists, verify SHA
+if test -f ${HOME}/tdx-guest.qcow2 ; then
     verify_sha
 fi
 
-# download DEMO guest ISO
+# download DEMO guest QCOW2
 if test "y" = "$NEED_DOWNLOAD" ; then
-    if wget -O ${HOME}/tdx-guest.iso ${GUEST_DOWNLOAD}/${GUEST_ISO} ; then
-	print_sep "SUCCESS: guest ISO downloaded to $HOME"
+    if wget -O ${HOME}/tdx-guest.qcow2 ${GUEST_URL}/${GUEST_QCOW2} ; then
+	print_sep "SUCCESS: guest QCOW2 downloaded to $HOME"
     else
-	print_sep "FAILURE: could not download guest ISO to $HOME"
+	print_sep "FAILURE: could not download guest QCOW2 to $HOME"
 	exit 6
     fi
     # check SHA (again potentially)
     verify_sha
     if test "y" = "$NEED_DOWNLOAD" ; then
-	print_sep "FAILURE: downloaded ISO failed SHA verification"
+	print_sep "FAILURE: downloaded QCOW2 failed SHA verification"
 	exit 7
     fi
 fi
 
-# create DEMO guest image QCOW
-
-if qemu-img create -f qcow2 ${HOME}/tdx-guest.qcow2 64G ;then
-    print_sep "SUCCESS: guest QCOW2 created in $HOME"
-else
-    print_sep "FAILURE: could not create QCOW2 in $HOME"
-    exit 7
-fi
-
-# install the DEMO guest: this requires some user interaction
-
-/usr/bin/qemu-system-x86_64 \
-    -accel kvm \
-    -machine q35 \
-    -cpu host,pmu=off,-kvm-steal-time \
-    -smp 4 \
-    -m 4G \
-    -drive file=${HOME}/tdx-guest.qcow2,if=virtio \
-    -netdev user,id=net0 \
-    -device virtio-net,netdev=net0 \
-    -nographic \
-    -bios /usr/share/qemu/tdvf-x86_64.bin \
-    -cdrom ${HOME}/tdx-guest.iso
+print_sep "Now run tdx-demo-run.sh to start the OpenSUSE Leap Alpha 15.6 TDX guest."

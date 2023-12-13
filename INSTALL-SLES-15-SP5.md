@@ -37,9 +37,13 @@ To get things going quickly you can get the scripts
 
 tdx-demo-install.sh and tdx-demo-run.sh
 
-tdx-demo-install.sh sets up the necessary repositories and downloads and prepares the Demo guest image,
+tdx-demo-install.sh sets up the necessary repositories and downloads the Demo guest image.
+
+A reboot of the host is required in order to load the new TDX-enabled kernel in the host.
 
 tdx-demo-run.sh runs the Demo guest image with TDX enabled.
+
+This should be sufficient to install and run the DEMO, but read further for more details if needed.
 
 ## Manual instructions
 
