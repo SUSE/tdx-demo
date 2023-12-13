@@ -118,6 +118,6 @@ fi
     -drive file=${HOME}/tdx-guest.qcow2,if=virtio \
     -netdev user,id=net0 \
     -device virtio-net,netdev=net0 \
-    -serial stdin \
+    -nographic \
     -bios /usr/share/qemu/tdvf-x86_64.bin \
     -cdrom ${HOME}/tdx-guest.iso
