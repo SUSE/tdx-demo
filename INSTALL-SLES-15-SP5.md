@@ -9,7 +9,7 @@ instructions below are provided for **DEMO** purposes only. There is no support
 provided by SUSE for these packages or any setups derived from following this
 document.
 
-If you run into issues, please report them [here](https://github.com/SUSE/tdx-support/issues).
+If you run into issues, please report them [here](https://github.com/SUSE/tdx-demo/issues).
 
 ## Preparing the Host Environment
 
