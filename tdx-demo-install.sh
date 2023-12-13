@@ -6,7 +6,7 @@ PROGRAM_NAME=$0
 REPO=tdx-demo-packages
 #REPO_LEN=${#REPO}
 GUEST_DOWNLOAD=http://download.opensuse.org/distribution/leap/15.6/iso/
-GUEST_ISO=openSUSE-Leap-15.6-DVD-x86_64-Build565.1-Media.iso
+GUEST_ISO=openSUSE-Leap-15.6-DVD-x86_64-Current.iso
 NEED_DOWNLOAD=y
 
 # print separator line with asterisks
@@ -50,7 +50,7 @@ fi
 if zypper lr 2>/dev/null | grep -q $REPO ; then
     print_sep "SUCCESS: DEMO $REPO repository exists"
 else
-    if zypper ar -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ $REPO ; then
+    if zypper ar -p 1 -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ $REPO ; then
 	print_sep "SUCCESS: DEMO $REPO repository is added"
     else
 	ZC=$?
@@ -70,7 +70,7 @@ fi
 
 # install packages
 
-if zypper -q install -y --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 ; then
+if zypper -q install -y --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 qemu-tools ; then
     print_sep "SUCCESS: all DEMO packages in $REPO installed"
 else
     print_sep "FAILURE: could not install $REPO"
@@ -118,6 +118,6 @@ fi
     -drive file=${HOME}/tdx-guest.qcow2,if=virtio \
     -netdev user,id=net0 \
     -device virtio-net,netdev=net0 \
-    -serial stdio \
-    -bios /usr/share/qemu/tdvf-x86_64.bin \
+    -nographic \
+    -bios /usr/share/qemu/ovmf-x86_64-suse-4m.bin \
     -cdrom ${HOME}/tdx-guest.iso
