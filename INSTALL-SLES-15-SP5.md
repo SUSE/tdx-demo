@@ -13,6 +13,10 @@ If you run into issues, please report them [here](https://github.com/SUSE/tdx-su
 
 ## Preparing the Host Environment
 
+First of all, make sure that your hardware is TDX-capable,
+and that you are running on the host either SUSE Linux Enterprise 15 SP5, or openSUSE Leap 15.5.
+This DEMO will not likely work on other host Operating Systems.
+
 In order to use TDX a number of options need to be enabled in the systems firmware settings. Please refer to this 
 [Intel document](https://github.com/intel/tdx-linux/wiki/Instruction-to-set-up-TDX-host-and-guest#setup-tdx-host-in-bios)
 for details.
