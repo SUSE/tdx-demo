@@ -18,7 +18,7 @@ NEED_DOWNLOAD=y
 function print_sep () {
     printf '*%.0s' {1..60}
     printf "\n${PROGRAM_NAME}: "
-    echo $*
+    echo "$*"
 }
 
 function verify_sha () {
@@ -75,6 +75,8 @@ fi
 
 # install packages
 
+print_sep "Installing packages, this might take a while, please be patient..."
+
 if zypper -q install -y --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 qemu-tools ; then
     print_sep "SUCCESS: all DEMO packages in $REPO_NAME installed"
 else
@@ -103,4 +105,10 @@ if test "y" = "$NEED_DOWNLOAD" ; then
     fi
 fi
 
-print_sep "Now run tdx-demo-run.sh to start the OpenSUSE Leap Alpha 15.6 TDX guest."
+print_sep 'If you installed for the first time, please reboot into the updated TDX DEMO kernel.
+
+Then run:
+
+./tdx-demo-run.sh
+
+to start the OpenSUSE Leap Alpha 15.6 TDX guest.'
