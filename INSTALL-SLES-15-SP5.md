@@ -29,13 +29,30 @@ are not yet completely merged into their upstream code-streams, so the SUSE
 default packages can not yet support Intel TDX.
 
 SUSE packaged the non-upstream code that is available and provides updated
-packages for users and customers to experiment with this new technology. To
-install these packages, an additional repository needs to be added via zypper.
+packages for users and customers to experiment with this new technology.
+
+## Quickstart scripts
+
+To get things going quickly you can get the scripts
+
+tdx-demo-install.sh and tdx-demo-run.sh
+
+tdx-demo-install.sh sets up the necessary repositories and downloads the Demo guest image.
+
+A reboot of the host is required in order to load the new TDX-enabled kernel in the host.
+
+tdx-demo-run.sh runs the Demo guest image with TDX enabled.
+
+This should be sufficient to install and run the DEMO, but read further for more details if needed.
+
+## Manual instructions
+
+to install these packages, an additional repository needs to be added via zypper.
 
 On openSUSE Leap 15.5 or SUSE Linux Enterprise Server this can be done via
 
 ```
-$ sudo zypper ar -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ tdx-demo-packages
+$ sudo zypper ar -p1 -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ tdx-demo-packages
 $ sudo zypper refresh
 ```
 
@@ -44,7 +61,7 @@ replace the default version shipped by the distribution. To install all required
 packages, do:
 
 ```
-$ sudo zypper install --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 qemu-img
+$ sudo zypper install --allow-vendor-change kernel-default qemu qemu-ovmf-tdx-x86_64 qemu-tools
 ```
 
 This command will install a TDX capable kernel and QEMU together with the
@@ -98,7 +115,7 @@ images $ /usr/bin/qemu-system-x86_64 \
 	-device virtio-net,netdev=net0 \
 	-serial stdio \
 	-bios /usr/share/qemu/tdvf-x86_64.bin \
-	-cdrom openSUSE-Tumbleweed-DVD-x86_64-Current.iso
+	-cdrom openSUSE-Leap-15.6-DVD-x86_64-Current.iso
 ```
 
 During the installation process, make sure that Secure boot is enabled for the
