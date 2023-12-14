@@ -31,25 +31,25 @@ default packages can not yet support Intel TDX.
 SUSE packaged the non-upstream code that is available and provides updated
 packages for users and customers to experiment with this new technology.
 
-## Quickstart scripts
+## Quickstart Scripts
 
 To get things going quickly you can get the scripts
+[tdx-demo-install.sh](tdx-demo-install.sh) and
+[tdx-demo-run.sh](tdx-demo-run.sh).
 
-tdx-demo-install.sh and tdx-demo-run.sh
+The `tdx-demo-install.sh` script sets up the necessary repositories and
+downloads the Demo guest image. A reboot of the host is required in order to
+load the new TDX-enabled kernel in the host.
 
-tdx-demo-install.sh sets up the necessary repositories and downloads the Demo guest image.
-
-A reboot of the host is required in order to load the new TDX-enabled kernel in the host.
-
-tdx-demo-run.sh runs the Demo guest image with TDX enabled.
-
-This should be sufficient to install and run the DEMO, but read further for more details if needed.
+When the host is set up, `tdx-demo-run.sh` runs the Demo guest image with TDX
+enabled. This is sufficient to install and run the DEMO, but read further for
+more details if needed.
 
 ## Manual instructions
 
-to install these packages, an additional repository needs to be added via zypper.
-
-On openSUSE Leap 15.5 or SUSE Linux Enterprise Server this can be done via
+To install these packages manually, an additional repository needs to be added
+via zypper. On openSUSE Leap 15.5 or SUSE Linux Enterprise Server this can be
+done via
 
 ```
 $ sudo zypper ar -p1 -e -f https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/ tdx-demo-packages
