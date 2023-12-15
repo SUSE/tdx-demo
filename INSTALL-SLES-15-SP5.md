@@ -128,6 +128,17 @@ images $ /usr/bin/qemu-system-x86_64 \
 During the installation process, make sure that Secure boot is enabled for the
 image.
 
+If you want to use a pre-generated qcow2, there is Leap 15.6 Alpha image available as:
+
+https://beta.suse.com/private/virt/tdx/tdx-guest.qcow2
+https://beta.suse.com/private/virt/tdx/tdx-guest.qcow2.sha256
+
+or compressed as:
+
+https://beta.suse.com/private/virt/tdx/tdx-guest.qcow2.gz
+https://beta.suse.com/private/virt/tdx/tdx-guest.qcow2.gz.sha256
+
+
 ## Launching a TDX guest
 
 Once the installation is done and you verified it reboots correctly, it is time
@@ -136,9 +147,9 @@ to enable TDX. Change the command line to:
 ```
 images $ sudo /usr/bin/qemu-system-x86_64 \
 	-accel kvm \
-	-object tdx-guest,sept-ve-disable=on,id=tdx \
+	-object tdx-guest,sept-ve-disable=on,id=tdx0 \
 	-object memory-backend-memfd-private,id=ram1,size=4G \
-	-machine q35,kernel_irqchip=split,confidential-guest-support=tdx,memory-backend=ram1 \
+	-machine q35,kernel_irqchip=split,confidential-guest-support=tdx0,memory-backend=ram1 \
 	-cpu host,pmu=off,-kvm-steal-time \
 	-smp 4 \
 	-drive file=tdx-guest.qcow2,if=virtio \
