@@ -42,7 +42,14 @@ downloads the Demo guest image. A reboot of the host is required in order to
 load the new TDX-enabled kernel in the host.
 
 When the host is set up, `tdx-demo-run.sh` runs the Demo guest image with TDX
-enabled. This is sufficient to install and run the DEMO, but read further for
+enabled.
+
+The guest access information:
+
+user: tdxdemo
+password: tdxdemo
+
+This is sufficient to install and run the DEMO, but read further for
 more details if needed.
 
 ## Manual instructions
