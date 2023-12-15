@@ -9,8 +9,8 @@ PROGRAM_NAME=$0
 REPO_URL=https://download.opensuse.org/repositories/devel:/coco:/Leap15.5/15.5/
 REPO_NAME=tdx-demo-packages
 
-GUEST_URL=https://download.opensuse.org/repositories/Virtualization:/Appliances:/Images:/openSUSE-Leap-15.6/images/
-GUEST_QCOW2=openSUSE-Leap-15.6-Minimal-VM.x86_64-kvm-and-xen.qcow2
+GUEST_URL=https://beta.suse.com/private/virt/tdx/
+GUEST_QCOW2=tdx-guest.qcow2
 
 NEED_DOWNLOAD=y
 
